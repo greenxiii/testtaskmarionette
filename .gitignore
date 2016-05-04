@@ -1,0 +1,4 @@
+web/lib
+var/cache/*
+var/logs/*
+node_modules
