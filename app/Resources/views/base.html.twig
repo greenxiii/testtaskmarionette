@@ -3,12 +3,17 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('bundles/app/css/global.css')}}"/>
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="{{ asset('bundles/app/css/global.css')}}"/>
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block scripts %}
+            <script src="{{ asset('lib/jquery/dist/jquery.min.js')}}"></script>
+            <script src="{{ asset('lib/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+            <script src="{{ asset('bundles/app/js/main.js')}}"></script>
+        {% endblock %}
     </body>
 </html>

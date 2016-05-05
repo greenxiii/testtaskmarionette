@@ -15,7 +15,7 @@ var onError = function (err) {
     console.log(err);
 };
 
-gulp.task('browser-sync', ['coffee-compile', 'styles-compile'], function() {
+gulp.task('browser-sync', ['scripts', 'styles'], function() {
     bs.init({
         // server: {
             // baseDir: "./"
@@ -58,27 +58,15 @@ gulp.task('coffee-compile', function() {
             .pipe(notify({ message: 'coffee-compile task complete' }));
 });
 
-gulp.task('images', function() {
-    return gulp.src('images/*.png')
-        .pipe(imagemin({
-            progressive: true,
-            svgoPlugins: [{removeViewBox: false}],
-            use: [pngquant()]
-        }))
-        .pipe(gulp.dest('images/compiled'))
-        .pipe(notify({ message: 'Image task complete' }));
-});
-
 gulp.task('serve', ['styles', 'scripts', 'watch']);
 
-gulp.task('build', ['styles', 'scripts', 'images']);
+gulp.task('build', ['styles', 'scripts']);
 
 gulp.task('watch', ['browser-sync'], function() {
-    gulp.watch('src/AppBundle/Resources/public/less/*.less', ['styles-compile']);
-    gulp.watch('src/AppBundle/Resources/public/coffee/*.coffee', ['coffee-compile']);
+    gulp.watch('src/AppBundle/Resources/public/less/*.less', ['styles', bs.reload]);
+    gulp.watch('src/AppBundle/Resources/public/coffee/*.coffee', ['scripts', bs.reload]);
 
-    gulp.watch('src/AppBundle/Resources/public/css/**/*.css', ['styles-compile', bs.reload]);
-    gulp.watch('src/AppBundle/Resources/public/js/**/*.js', ['bs.reload']);
     gulp.watch('app/Resources/views/**/*.html.twig').on('change', bs.reload);
+    gulp.watch('app/Resources/translations/**/*.yml').on('change', bs.reload);
 });
 
