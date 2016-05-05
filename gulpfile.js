@@ -32,26 +32,29 @@ gulp.task('styles', ['styles-compile'], function () {
     return exec('bin/console assets:install --symlink', logStdOutAndErr);
 });
 
+// Without this function exec() will not show any output
+var logStdOutAndErr = function (err, stdout, stderr) {
+    console.log(stdout + stderr);
+};
+
 gulp.task('styles-compile', function() {
-    return gulp.src('less/global.less')
+    return gulp.src('src/AppBundle/Resources/public/less/global.less')
         .pipe(plumber({
             errorHandler: onError
         }))
-        .pipe(less({
-            paths: [ path.join(__dirname, 'less', 'includes') ]
-        }))
+        .pipe(less())
         .pipe(autoprefixer('last 2 version'))
-        .pipe(gulp.dest('css'))
+        .pipe(gulp.dest('src/AppBundle/Resources/public/css'))
         .pipe(notify({ message: 'Styles-compile task complete' }));
 });
 
 gulp.task('coffee-compile', function() {
-    return gulp.src('coffee/**/*.coffee')
+    return gulp.src('src/AppBundle/Resources/public/coffee/**/*.coffee')
+            .pipe(coffee({bare: true}))
             .pipe(plumber({
                 errorHandler: onError
             }))
-            .pipe(coffee({bare: true}))
-            .pipe(gulp.dest('js'))
+            .pipe(gulp.dest('src/AppBundle/Resources/public/js'))
             .pipe(notify({ message: 'coffee-compile task complete' }));
 });
 
@@ -66,13 +69,16 @@ gulp.task('images', function() {
         .pipe(notify({ message: 'Image task complete' }));
 });
 
-gulp.task('serve', ['styles-compile', 'coffee-compile', 'watch']);
+gulp.task('serve', ['styles', 'scripts', 'watch']);
 
-gulp.task('build', ['styles-compile', 'coffee-compile', 'images']);
+gulp.task('build', ['styles', 'scripts', 'images']);
 
 gulp.task('watch', ['browser-sync'], function() {
-    gulp.watch('less/*.less', ['styles-compile', bs.reload]);
-    gulp.watch('coffee/*.coffee', ['coffee-compile']);
-    gulp.watch('*.html').on('change', bs.reload);
+    gulp.watch('src/AppBundle/Resources/public/less/*.less', ['styles-compile']);
+    gulp.watch('src/AppBundle/Resources/public/coffee/*.coffee', ['coffee-compile']);
+
+    gulp.watch('src/AppBundle/Resources/public/css/**/*.css', ['styles-compile', bs.reload]);
+    gulp.watch('src/AppBundle/Resources/public/js/**/*.js', ['bs.reload']);
+    gulp.watch('app/Resources/views/**/*.html.twig').on('change', bs.reload);
 });
 

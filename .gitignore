@@ -2,3 +2,6 @@ web/lib
 var/cache/*
 var/logs/*
 node_modules
+web/bundles/app
+src/AppBundle/Resources/public/css
+src/AppBundle/Resources/public/js
