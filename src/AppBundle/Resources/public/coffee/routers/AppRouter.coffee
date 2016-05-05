@@ -1,8 +1,10 @@
 define(['marionette', 'controllers/Controller'], (Marionette, Controller) ->
-   Marionette.AppRouter.extend({
-       # //"index" must be a method in AppRouter's controller
-       appRoutes: {
-           "": "index"
-       }
-   });
+	Marionette.AppRouter.extend(
+		controller: Controller
+		appRoutes:
+			"": "index"
+			"albums": "albums"
+			"album/:id": "album"
+
+	);
 );

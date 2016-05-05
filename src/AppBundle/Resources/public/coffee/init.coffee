@@ -39,7 +39,7 @@ require(["jquery","App", "routers/AppRouter", "controllers/Controller"], ($, App
         App.appRouter = new AppRouter({
             controller:new Controller()
         });
-
+        
         App.start();
     );
 
