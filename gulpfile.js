@@ -46,9 +46,8 @@ gulp.task('rjs', ['coffee-compile', 'templates'], function() {
         removeCombined: true,
         mainConfigFile: "web/bundles/app/js/init.js",
         include: ["app"],
-        out: "public/js/app.js"
-    })
-    .pipe(gulp.dest('./'));
+        out: "web/bundles/app/js/app.js"
+    });
 });
 
 gulp.task('templates', function() {
