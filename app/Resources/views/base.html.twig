@@ -11,9 +11,7 @@
     <body>
         {% block body %}{% endblock %}
         {% block scripts %}
-            <script src="{{ asset('lib/jquery/dist/jquery.min.js')}}"></script>
-            <script src="{{ asset('lib/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-            <script src="{{ asset('bundles/app/js/main.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('lib/requirejs/require.js')}}" data-main="{{ asset('bundles/app/js/init.js')}}"></script>
         {% endblock %}
     </body>
 </html>

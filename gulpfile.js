@@ -1,14 +1,15 @@
-var gulp = require('gulp'),
+var gulp         = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
-    notify = require('gulp-notify'),
-    less = require('gulp-less'),
-    plumber = require('gulp-plumber'),
-    path = require('path'),
-    beep = require('beepbeep'),
-    imagemin = require('gulp-imagemin'),
-    coffee = require('gulp-coffee'),
-    exec = require('child_process').exec,
-    bs = require('browser-sync').create();
+    notify       = require('gulp-notify'),
+    less         = require('gulp-less'),
+    plumber      = require('gulp-plumber'),
+    path         = require('path'),
+    beep         = require('beepbeep'),
+    imagemin     = require('gulp-imagemin'),
+    coffee       = require('gulp-coffee'),
+    rjs          = require('gulp-requirejs'),
+    exec         = require('child_process').exec,
+    bs           = require('browser-sync').create();
 
 var onError = function (err) {
     beep();
@@ -20,17 +21,40 @@ gulp.task('browser-sync', ['scripts', 'styles'], function() {
         // server: {
             // baseDir: "./"
         // },
-        proxy: "http://test_marionette.com/app_dev.php" 
+        proxy: "http://test_marionette.com/app_dev.php",
+        open: false
     });
 });
 
-gulp.task('scripts', ['coffee-compile'], function () {
+gulp.task('scripts', ['rjs'], function () {
     return exec('bin/console assets:install --symlink', logStdOutAndErr);
 });
 
 gulp.task('styles', ['styles-compile'], function () {
     return exec('bin/console assets:install --symlink', logStdOutAndErr);
 });
+
+gulp.task('rjs', ['coffee-compile', 'templates'], function() {
+    rjs({
+        baseUrl : "web/bundles/app/js",
+        paths   : {
+            "app" : "init"
+        },
+        findNestedDependencies : true,
+        wrap: false,
+        preserveLicenseComments: false,
+        removeCombined: true,
+        mainConfigFile: "web/bundles/app/js/init.js",
+        include: ["app"],
+        out: "public/js/app.js"
+    })
+    .pipe(gulp.dest('./'));
+});
+
+gulp.task('templates', function() {
+    gulp.src('web/bundles/app/coffee/templates/*.html')
+   .pipe(gulp.dest('web/bundles/app/js/templates/'));
+})
 
 // Without this function exec() will not show any output
 var logStdOutAndErr = function (err, stdout, stderr) {
@@ -64,7 +88,8 @@ gulp.task('build', ['styles', 'scripts']);
 
 gulp.task('watch', ['browser-sync'], function() {
     gulp.watch('src/AppBundle/Resources/public/less/*.less', ['styles', bs.reload]);
-    gulp.watch('src/AppBundle/Resources/public/coffee/*.coffee', ['scripts', bs.reload]);
+    gulp.watch('src/AppBundle/Resources/public/coffee/**/*.coffee', ['scripts', bs.reload]);
+    gulp.watch('src/AppBundle/Resources/public/coffee/templates/*.html', ['templates', bs.reload]);
 
     gulp.watch('app/Resources/views/**/*.html.twig').on('change', bs.reload);
     gulp.watch('app/Resources/translations/**/*.yml').on('change', bs.reload);

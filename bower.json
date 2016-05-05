@@ -4,6 +4,8 @@
   "dependencies": {
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.5",
-    "backbone.marionette": "marionette#~2.4.5"
+    "backbone.marionette": "marionette#~2.4.5",
+    "requirejs": "~2.2.0",
+    "text": "~2.0.15"
   }
 }
