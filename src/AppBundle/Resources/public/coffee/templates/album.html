@@ -4,9 +4,11 @@
 
     <p class="muted">
         You are viewing this application on
-        <%= albums %>
-         <% _.each(albums, function(album){ %>
-            <%= album %>
-         <% }); %>
+        <% if ( mobile ) { %>
+            <strong>Mobile</strong>
+        <% } else { %>
+            <strong>Desktop</strong>
+        <% } %>
+    </p>
     <br/>
 </div>

@@ -1,15 +1,9 @@
-define( [ 'App', 'marionette', 'models/Model', 'text!templates/albums.html'],
-    ( App, Marionette, Model, template) ->
-        # //ItemView provides some default rendering logic
-        Marionette.ItemView.extend( {
-            # //Template HTML string
-            template: _.template(template),
-            model: new Model({
-                mobile: App.mobile
-            }),
-            # // View Event Handlers
-            events: {
-
-            }
+define( [ 'App', 'marionette', 'models/Albums', 'views/AlbumView', 'text!templates/albums.html'],
+    ( App, Marionette, Albums, AlbumView, template) ->
+        Backbone.Marionette.CollectionView.extend({
+            tagName: 'divv',
+            childView: new AlbumView
+            initialize: ->
+                console.log("CollectionView")
         });
 );
