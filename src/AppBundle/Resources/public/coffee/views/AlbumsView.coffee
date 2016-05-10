@@ -5,5 +5,6 @@ define( [ 'App', 'marionette', 'models/Albums', 'views/AlbumView', 'views/EmptyA
             childView: AlbumView
             emptyView: EmptyAlbumView
             collection: new Albums
+            className: 'album_container'
         });
 );

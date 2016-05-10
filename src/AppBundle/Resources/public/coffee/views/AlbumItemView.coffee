@@ -1,9 +1,9 @@
-define( [ 'App', 'marionette', 'models/Album', 'text!templates/albums.html'],
-    ( App, Marionette, Album, template) ->
+define( [ 'App', 'marionette', 'models/AlbumItem', 'text!templates/albumitems.html'],
+    ( App, Marionette, AlbumItem, template) ->
         Marionette.ItemView.extend( {
-            model: Album
+            model: AlbumItem
             tagName: 'div'
-            className: 'album_item'
+            className: 'album_item_img'
             template: (model) ->
                 _.template(template)(
                     albums : model
