@@ -1,6 +1,9 @@
-define(['jquery', 'backbone', 'marionette', 'underscore', 'layouts/RootLayoutView'],
-    ($, Backbone, Marionette, _, RootLayoutView) ->
+define(['jquery', 'backbone', 'marionette', 'underscore', 'layouts/RootLayoutView', 'models/Album', 'models/Albums', 'views/AlbumView'],
+    ($, Backbone, Marionette, _, RootLayoutView, Album, Albums, AlbumView) ->
         App = new Backbone.Marionette.Application();
+        Album = undefined
+        Albums = undefined
+        AlbumView = undefined
 
         App.rootLayout = new RootLayoutView({
             regions: {
@@ -9,15 +12,8 @@ define(['jquery', 'backbone', 'marionette', 'underscore', 'layouts/RootLayoutVie
             }
         });
 
-        isMobile = () ->
-            ua = (navigator.userAgent || navigator.vendor || window.opera);
-            (/iPhone|iPod|iPad|Android|BlackBerry|Opera Mini|IEMobile/).test(ua);
-
-        App.static = {};
-
-        App.static.mobile = isMobile();
-
         App.on('start', (options) ->
+
             if (Backbone.history)
             	Backbone.history.start();
         );

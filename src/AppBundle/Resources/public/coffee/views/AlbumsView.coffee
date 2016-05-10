@@ -1,9 +1,9 @@
-define( [ 'App', 'marionette', 'models/Albums', 'views/AlbumView', 'text!templates/albums.html'],
-    ( App, Marionette, Albums, AlbumView, template) ->
+define( [ 'App', 'marionette', 'models/Albums', 'views/AlbumView', 'views/EmptyAlbumView'],
+    ( App, Marionette, Albums, AlbumView, EmptyAlbumView) ->
         Backbone.Marionette.CollectionView.extend({
-            tagName: 'divv',
-            childView: new AlbumView
-            initialize: ->
-                console.log("CollectionView")
+            tagName: 'div'
+            childView: AlbumView
+            emptyView: EmptyAlbumView
+            collection: new Albums
         });
 );

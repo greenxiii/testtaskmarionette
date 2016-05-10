@@ -25,16 +25,18 @@ class DefaultController extends Controller
     public function albumsAction(Request $request)
     {
 
-        $firstAlbum = "{id:0, name:'firstAlbum'}";        
-        $secondAlbum = "{id:1, name:'secondAlbum'}";        
-        $thirdAlbum = "{id:2, name:'thirdAlbum'}";        
-        $fourthAlbum = "{id:3, name:'fourthAlbum'}";        
+        $firstAlbum  = ['id' => 0, 'name' => 'firstAlbum' ];        
+        $secondAlbum = ['id' => 1, 'name' => 'secondAlbum'];        
+        $thirdAlbum  = ['id' => 2, 'name' => 'thirdAlbum' ];        
+        $fourthAlbum = ['id' => 3, 'name' => 'fourthAlbum'];        
+        $fifthAlbum  = ['id' => 4, 'name' => 'fifthAlbum' ];        
 
         $albums = [
             $firstAlbum,
             $secondAlbum,
             $thirdAlbum,
-            $fourthAlbum
+            $fourthAlbum,
+            $fifthAlbum
         ];
 
         return new JsonResponse($albums);
